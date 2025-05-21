@@ -1,6 +1,5 @@
 setup:
-	cd frontend-admin && npm install
-	cd frontend-user && npm install
+	docker-compose build
 
 up:
 	docker-compose up -d

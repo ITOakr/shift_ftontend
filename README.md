@@ -8,7 +8,7 @@
 
 ### 1. リポジトリのクローン
 ```bash
-git clone <リポジトリのURL>
+git clone https://github.com/TsunakawaShunya/attendance-front.git
 cd attendance-app
 ```
 
@@ -17,12 +17,14 @@ cd attendance-app
 # フロントエンドの依存関係をインストール
 make setup
 ```
+最初の1回だけで大丈夫です
 
 ### 3. アプリケーションの起動
 ```bash
 # 起動
 make up
 ```
+開発を始める前に毎回行ってください
 
 ### 4. アプリケーションへのアクセス
 - 管理者用フロントエンド: http://localhost:3000
