@@ -1,40 +1,46 @@
 import React, { useContext } from "react"
+import { ComponentProps } from "react"
 import { useNavigate, Link } from "react-router-dom"
 import Cookies from "js-cookie"
 
-import { makeStyles, Theme } from "@material-ui/core/styles"
+import AppBar from "@mui/material/AppBar"
+import Toolbar from "@mui/material/Toolbar"
+import Typography, { TypographyProps } from "@mui/material/Typography"
+import Button, { ButtonProps } from "@mui/material/Button"
+import IconButton from "@mui/material/IconButton"
+import MenuIcon from "@mui/icons-material/Menu"
 
-import AppBar from "@material-ui/core/AppBar"
-import Toolbar from "@material-ui/core/Toolbar"
-import Typography from "@material-ui/core/Typography"
-import Button from "@material-ui/core/Button"
-import IconButton from "@material-ui/core/IconButton"
-import MenuIcon from "@material-ui/icons/Menu"
+import { styled } from "@mui/material/styles"
 
 import { signOut } from "lib/api/auth"
 
 import { AuthContext } from "App"
 
-const useStyles = makeStyles((theme: Theme) => ({
-  iconButton: {
-    marginRight: theme.spacing(2),
-  },
-  title: {
-    flexGrow: 1,
-    textDecoration: "none",
-    color: "inherit"
-  },
-  linkBtn: {
-    textTransform: "none"
-  }
+const StyledIconButton = styled(IconButton)(({ theme }) => ({
+  marginRight: theme.spacing(2),
 }))
+
+// タイトル部分（「Sample」）
+//    Typography コンポーネントに対して flexGrow とリンク装飾を適用
+type LinkProps = Partial<ComponentProps<typeof Link>>
+const TitleTypography = styled(Typography)<TypographyProps & LinkProps>(({ theme }) => ({
+  flexGrow: 1,
+  textDecoration: "none",
+  color: "inherit",
+}))
+
+
+// リンク用の Button（Sign in / Sign Up / Sign out）
+//     textTransform: "none" を当てる
+const LinkButton = styled(Button)<ButtonProps & LinkProps>({
+  textTransform: "none",
+})
 
 const Header: React.FC = () => {
   const { loading, isSignedIn, setIsSignedIn } = useContext(AuthContext)
-  const classes = useStyles()
   const navigate = useNavigate()
 
-  const handleSignOut = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleSignOut = async (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
     try {
       const res = await signOut()
 
@@ -62,33 +68,32 @@ const Header: React.FC = () => {
     if (!loading) {
       if (isSignedIn) {
         return (
-          <Button
+          <LinkButton
             color="inherit"
-            className={classes.linkBtn}
             onClick={handleSignOut}
           >
             Sign out
-          </Button>
+          </LinkButton>
         )
       } else {
         return (
           <>
-            <Button
+            <LinkButton
               component={Link}
               to="/signin"
               color="inherit"
-              className={classes.linkBtn}
+              style={{ textTransform: "none" }}
             >
               Sign in
-            </Button>
-            <Button
+            </LinkButton>
+            <LinkButton
               component={Link}
               to="/signup"
               color="inherit"
-              className={classes.linkBtn}
+              style={{ textTransform: "none" }}
             >
               Sign Up
-            </Button>
+            </LinkButton>
           </>
         )
       }
@@ -101,21 +106,20 @@ const Header: React.FC = () => {
     <>
       <AppBar position="static">
         <Toolbar>
-          <IconButton
+          <StyledIconButton
             edge="start"
-            className={classes.iconButton}
             color="inherit"
+            aria-label="menu"
           >
             <MenuIcon />
-          </IconButton>
-          <Typography
+          </StyledIconButton>
+          <TitleTypography
             component={Link}
             to="/"
             variant="h6"
-            className={classes.title}
           >
             Sample
-          </Typography>
+          </TitleTypography>
           <AuthButtons />
         </Toolbar>
       </AppBar>

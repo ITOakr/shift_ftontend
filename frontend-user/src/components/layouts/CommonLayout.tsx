@@ -1,14 +1,12 @@
 import React from "react"
 
-import { Container, Grid } from "@material-ui/core"
-import { makeStyles } from "@material-ui/core/styles"
-
+import Container from "@mui/material/Container"
+import { Grid } from "@mui/material"
+import { styled } from "@mui/material/styles"
 import Header from "components/layouts/Header"
 
-const useStyles = makeStyles(() => ({
-  container: {
-    marginTop: "3rem"
-  }
+const StyledContainer = styled(Container)(({ theme }) => ({
+  marginTop: theme.spacing(6),
 }))
 
 interface CommonLayoutProps {
@@ -17,21 +15,19 @@ interface CommonLayoutProps {
 
 // 全てのページで共通となるレイアウト
 const CommonLayout = ({ children }: CommonLayoutProps) => {
-  const classes = useStyles()
-
   return (
-    <>
+     <>
       <header>
         <Header />
       </header>
       <main>
-        <Container maxWidth="lg" className={classes.container}>
-          <Grid container justify="center">
-            <Grid item>
+        <StyledContainer maxWidth="lg">
+          <Grid container justifyContent="center">
+            <Grid size={{ xs: 12, sm: 10, md: 8, lg: 6 }}>
               {children}
             </Grid>   
           </Grid>
-        </Container>
+        </StyledContainer>
       </main>
     </>
   )

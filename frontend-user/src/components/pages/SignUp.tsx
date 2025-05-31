@@ -2,39 +2,54 @@ import React, { useState, useContext } from "react"
 import { useNavigate } from "react-router-dom"
 import Cookies from "js-cookie"
 
-import { makeStyles, Theme } from "@material-ui/core/styles"
-import TextField from "@material-ui/core/TextField"
-import Card from "@material-ui/core/Card"
-import CardContent from "@material-ui/core/CardContent"
-import CardHeader from "@material-ui/core/CardHeader"
-import Button from "@material-ui/core/Button"
+import { styled } from "@mui/material/styles"
+import TextField from "@mui/material/TextField"
+import Card from "@mui/material/Card"
+import CardContent from "@mui/material/CardContent"
+import CardHeader from "@mui/material/CardHeader"
+import Button from "@mui/material/Button"
 
 import { AuthContext } from "App"
 import AlertMessage from "components/utils/AlertMessage"
 import { signUp } from "lib/api/auth"
 import { SignUpParams } from "interfaces/index"
 
-const useStyles = makeStyles((theme: Theme) => ({
-  container: {
-    marginTop: theme.spacing(6)
-  },
-  submitBtn: {
-    marginTop: theme.spacing(2),
-    flexGrow: 1,
-    textTransform: "none"
-  },
-  header: {
-    textAlign: "center"
-  },
-  card: {
-    padding: theme.spacing(2),
-    maxWidth: 400
-  }
+// const useStyles = makeStyles((theme: Theme) => ({
+//   container: {
+//     marginTop: theme.spacing(6)
+//   },
+//   submitBtn: {
+//     marginTop: theme.spacing(2),
+//     flexGrow: 1,
+//     textTransform: "none"
+//   },
+//   header: {
+//     textAlign: "center"
+//   },
+//   card: {
+//     padding: theme.spacing(2),
+//     maxWidth: 400
+//   }
+// }))
+
+const StyledCard = styled(Card)(({ theme }) => ({
+  padding: theme.spacing(2),
+  maxWidth: 400,
+  margin: "auto",
+}))
+
+const StyledCardHeader = styled(CardHeader)({
+  textAlign: "center",
+})
+
+const SubmitButton = styled(Button)(({ theme }) => ({
+  marginTop: theme.spacing(2),
+  flexGrow: 1,
+  textTransform: "none",
 }))
 
 // サインアップ用ページ
 const SignUp: React.FC = () => {
-  const classes = useStyles()
   const navigate = useNavigate()
 
   const { setIsSignedIn, setCurrentUser } = useContext(AuthContext)
@@ -84,8 +99,8 @@ const SignUp: React.FC = () => {
   return (
     <>
       <form noValidate autoComplete="off">
-        <Card className={classes.card}>
-          <CardHeader className={classes.header} title="Sign Up" />
+        <StyledCard>
+          <StyledCardHeader title="Sign Up" />
           <CardContent>
             <TextField
               variant="outlined"
@@ -127,20 +142,18 @@ const SignUp: React.FC = () => {
               autoComplete="current-password"
               onChange={event => setPasswordConfirmation(event.target.value)}
             />
-            <Button
+            <SubmitButton
               type="submit"
               variant="contained"
               size="large"
               fullWidth
-              color="default"
-              disabled={!name || !email || !password || !passwordConfirmation ? true : false}
-              className={classes.submitBtn}
+              disabled={!name || !email || !password || !passwordConfirmation} // 空欄があった場合はボタンを押せないように
               onClick={handleSubmit}
             >
               Submit
-            </Button>
+            </SubmitButton>
           </CardContent>
-        </Card>
+        </StyledCard>
       </form>
       <AlertMessage // エラーが発生した場合はアラートを表示
         open={alertMessageOpen}

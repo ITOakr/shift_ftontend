@@ -1,6 +1,6 @@
 import React from "react"
-import Snackbar from "@material-ui/core/Snackbar"
-import MuiAlert, { AlertProps } from "@material-ui/lab/Alert"
+import Snackbar, { SnackbarCloseReason } from "@mui/material/Snackbar"
+import MuiAlert, { AlertProps } from "@mui/material/Alert"
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -18,9 +18,10 @@ interface AlertMessageProps {
 
 // アラートメッセージ（何かアクションを行なった際の案内用に使い回す）
 const AlertMessage = ({ open, setOpen, severity, message}: AlertMessageProps) => {
-  const handleCloseAlertMessage = (e?: React.SyntheticEvent, reason?: string) => {
-    if (reason === "clickaway") return
-
+  const handleCloseAlertMessage = (event: React.SyntheticEvent<any> | Event, reason: SnackbarCloseReason) => {
+    if (reason === "clickaway") {
+      return
+    }
     setOpen(false)
   }
 
@@ -32,7 +33,8 @@ const AlertMessage = ({ open, setOpen, severity, message}: AlertMessageProps) =>
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
         onClose={handleCloseAlertMessage}
       >
-        <Alert onClose={handleCloseAlertMessage} severity={severity}>
+        <Alert onClose={(event) => handleCloseAlertMessage(event, "timeout")}
+          severity={severity}>
           {message}
         </Alert>
       </Snackbar>
