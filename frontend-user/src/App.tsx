@@ -71,9 +71,14 @@ const App: React.FC = () => {
           <Routes>
             <Route path="/signup" element={<SignUp/>} />
             <Route path="/signin" element={<SignIn/>} />
-            <Private>
+            {/* <Private>
               <Route path="/" element={<Home/>} />
-            </Private>
+            </Private> */}
+            <Route path="/" element={
+              <Private>
+              <Home />
+              </Private>
+            } />
           </Routes>
         </CommonLayout>
       </AuthContext.Provider>
