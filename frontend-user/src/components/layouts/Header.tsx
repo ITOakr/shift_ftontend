@@ -43,7 +43,8 @@ const Header: React.FC = () => {
   const handleSignOut = async (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
     try {
       const res = await signOut()
-
+      
+      console.log(res)
       if (res.data.success === true) {
         // サインアウト時には各Cookieを削除
         Cookies.remove("_access_token")
